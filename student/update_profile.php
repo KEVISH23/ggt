@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['id'])) {
     echo "<script>window.open('index.php','_self')</script>";
 }
 ?>
@@ -19,42 +19,53 @@ if (!isset($_SESSION['email'])) {
 </head>
 
 <body>
-    <form action="update_profile.php" method="POST">
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+    <?php
+    include('../connect.php');
+    global $conn;
+    $id = $_SESSION['id'];
+    $sql = "SELECT * FROM student WHERE id='$id'";
+    $result = mysqli_query($conn, $sql);
+    $final = mysqli_num_rows($result);
+    if ($final > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $email = $row['email'];
+            $username = $row['username'];
+            $phone = $row['phone'];
+            $gphone = $row['gphone'];
+            $gender = $row['gender'];
+
+            echo "
+            <form action='update_profile.php' method='POST'>
+        <div class='form-group'>
+            <label for='email'>Email address</label>
+            <input type='email' class='form-control' id='email' name='email' placeholder='$email' value='$email' aria-describedby='emailHelp'>
 
         </div>
-        <div class="form-group">
-            <label for="phone">Username</label>
-            <input type="text" class="form-control" id="username" name="username">
+        <div class='form-group'>
+            <label for='phone'>Username</label>
+            <input type='text' class='form-control' id='username' placeholder='$usename' value='$username' name='username'>
 
         </div>
-        <div class="form-group">
-            <label for="phone">phone</label>
-            <input type="text" class="form-control" id="phone" name="phone">
+        <div class='form-group'>
+            <label for='phone'>phone</label>
+            <input type='text' class='form-control' id='phone' placeholder='$phone' value='$phone' name='phone'>
 
         </div>
-        <div class="form-group">
-            <label for="gphone">Gardien phone</label>
-            <input type="text" class="form-control" id="gphone" name="gphone">
-
-        </div>
-        <div class="form-group">
-            <label>Gender</label>
-            <div>
-                <input type="radio" id="male" name="gender" value="male" required>
-                  <label for="male">Male</label>
-                  <input type="radio" id="female" name="gender" value="female" required>
-                  <label for="female">Female</label><br>
-            </div>
-
+        <div class='form-group'>
+            <label for='gphone'>Gardien phone</label>
+            <input type='text' class='form-control' id='gphone' placeholder='$gphone' value='$gphone' name='gphone'>
 
         </div>
 
 
-        <button type="submit" class="btn btn-primary" name="save">Save</button>
+
+        <button type='submit' class='btn btn-primary' name='save'>Save</button>
     </form>
+            ";
+        }
+    }
+    ?>
+
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -81,13 +92,23 @@ if (isset($_POST['save'])) {
     $gphone = $_POST['gphone'];
     $gender = $_POST['gender'];
 
-    $sql = "UPDATE student SET email='$mail',username='$name',phone='$phone',gphone='$gphone',gender='$gender' WHERE id='$id'";
+    $plength = strlen($phone);
+    $gplength = strlen($gphone);
 
-    if(mysqli_query($conn,$sql)){
-        echo "<script> alert('Profile Updated');
+    if($plenght==10 && $gplength==10){
+        $sql = "UPDATE student SET email='$mail',username='$name',phone='$phone',gphone='$gphone' WHERE id='$id'";
+        $conn->query($sql);
+        echo "<script> alert('Account Updated');
         window.location.href='student_profile.php';
         </script>";
     }
+    else{
+        echo "<script> alert('Phone number length should be 10');
+        window.location.href='update_profile.php';
+        </script>";
+    }
+    
+
 }
 
 ?>
