@@ -1,6 +1,12 @@
 h3{
     text-align: center;
 }
+.content .w-auto{
+    font-size: 30px;
+}
+body{
+    background-color: linear-gradient(to bottom, #66ff99 0%, #000066 100%);
+}
 
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
