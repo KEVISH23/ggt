@@ -43,7 +43,7 @@ if (!isset($_SESSION['id'])) {
         </div>
         <div class='form-group'>
             <label for='phone'>Username</label>
-            <input type='text' class='form-control' id='username' placeholder='$usename' value='$username' name='username'>
+            <input type='text' class='form-control' id='username' placeholder='$username' value='$username' name='username'>
 
         </div>
         <div class='form-group'>
@@ -90,12 +90,14 @@ if (isset($_POST['save'])) {
     $name = $_POST['username'];
     $phone = $_POST['phone'];
     $gphone = $_POST['gphone'];
-    $gender = $_POST['gender'];
+
 
     $plength = strlen($phone);
     $gplength = strlen($gphone);
+    echo $plength;
+    echo $gplength;
 
-    if($plenght==10 && $gplength==10){
+    if($plength==10 && $gplength==10){
         $sql = "UPDATE student SET email='$mail',username='$name',phone='$phone',gphone='$gphone' WHERE id='$id'";
         $conn->query($sql);
         echo "<script> alert('Account Updated');
