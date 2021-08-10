@@ -5,7 +5,9 @@ h3{
     font-size: 30px;
 }
 body{
-    background-color: linear-gradient(to bottom, #66ff99 0%, #000066 100%);
+    
+    background: linear-gradient(to bottom, #66ff99 0%, #000066 100%) !important;
+    background-repeat: no-repeat;
 }
 
 
